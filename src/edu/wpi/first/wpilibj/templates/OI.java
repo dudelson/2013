@@ -26,7 +26,7 @@ public class OI {
     }
     
     public double getXboxYR() {
-        return xbox.getRawAxis(4);
+        return xbox.getRawAxis(5);
     }
     
     public double getXboxXL() {
@@ -34,7 +34,7 @@ public class OI {
     }
     
     public double getXboxXR() {
-        return xbox.getRawAxis(3);
+        return xbox.getRawAxis(4);
     }
     
     public boolean isXDown() {

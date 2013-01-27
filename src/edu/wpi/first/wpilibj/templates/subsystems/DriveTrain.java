@@ -24,6 +24,7 @@ public class DriveTrain extends Subsystem {
         left = new Jaguar(LEFT_PORT);
         right = new Jaguar(RIGHT_PORT);
         drive = new RobotDrive(left, right);
+        drive.setSafetyEnabled(false);
     }
     
     protected void initDefaultCommand() {

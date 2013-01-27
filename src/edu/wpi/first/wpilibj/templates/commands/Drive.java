@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.command.*;
  * @author David
  */
 public class Drive extends CommandBase {
+    private int driveMode = 0;
     
     public Drive() {
         requires(driveTrain);
@@ -22,10 +23,14 @@ public class Drive extends CommandBase {
     }
     
     public void execute() {
-        if (oi.isXDown()) {
-            driveTrain.xboxArcade(oi.getXboxYL() * 0.75, oi.getXboxXL() * 0.75);
-        } else if (!oi.isXDown()) {
-            driveTrain.xboxTank(oi.getXboxYL() * 0.75, oi.getXboxYR() * 0.75);
+        if (oi.isXDown()) driveMode = (driveMode+1) % 2; //if x is pressed
+        switch (driveMode) {
+            case 0: System.out.println("Drive mode: TANK");
+                driveTrain.xboxTank(oi.getXboxYL() * 0.75, oi.getXboxYR() * 0.75);
+                break;
+            case 1: System.out.println("Drive mode: ARCADE");
+                driveTrain.xboxArcade(oi.getXboxYL() * 0.75, oi.getXboxXL());
+                break;
         }
     }
     
