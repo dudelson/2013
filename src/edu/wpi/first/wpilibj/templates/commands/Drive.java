@@ -12,17 +12,17 @@ import edu.wpi.first.wpilibj.command.*;
  * @author David
  */
 public class Drive extends CommandBase {
-    private int driveMode = 0;
+    private int driveMode = 1;
     
     public Drive() {
         requires(driveTrain);
     }
     
     public void initialize() {
-        
     }
     
     public void execute() {
+        System.out.println("Executing!");
         if (oi.isXDown()) driveMode = (driveMode+1) % 2; //if x is pressed
         switch (driveMode) {
             case 0: System.out.println("Drive mode: TANK");
