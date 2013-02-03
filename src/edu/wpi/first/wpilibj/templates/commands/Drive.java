@@ -6,6 +6,7 @@ package edu.wpi.first.wpilibj.templates.commands;
 
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.command.*;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.templates.OI;
 
 /**
@@ -37,7 +38,6 @@ public class Drive extends CommandBase {
         // x button toggles drive mode
         if (oi.isButtonPressed(OI.XBOX_BUTTON_X)) {
             driveMode = (driveMode+1) % 2;
-            System.out.println("DriveMode: " + getDriveMode());
         }
         
         //switch statement for style points
@@ -51,6 +51,8 @@ public class Drive extends CommandBase {
                 driveTrain.xboxArcade(oi.getXboxYL() * 0.75, oi.getXboxXL());
                 break;
         }
+        //print the current drive mode to the SmartDashboard
+        SmartDashboard.putString("Drive Mode: ", getDriveMode());
     }
     
     //switch statement for style points

@@ -3,6 +3,7 @@
  * and open the template in the editor.
  */
 package edu.wpi.first.wpilibj.templates.commands;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.templates.OI;
 
 /**
@@ -22,7 +23,8 @@ public class RunShooter extends CommandBase {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-
+        //the shooter is initially off
+        SmartDashboard.putString("Shooter: ", "OFF");
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -31,11 +33,13 @@ public class RunShooter extends CommandBase {
         if (oi.isButtonPressed(OI.XBOX_BUTTON_B)) {
             if (shooter.isOn()) {
                 shooter.turnOff();
-                System.out.println("Shooter: OFF");
+                //write the state of the shooter to the Smart Dashboard
+                SmartDashboard.putString("Shooter: ", "OFF");
             }
             else {
                 shooter.turnOn();
-                System.out.println("Shooter: ON");
+                //write the state of the shooter to the Smart Dashboard
+                SmartDashboard.putString("Shooter: ", "ON");
             }
         }
         
@@ -43,13 +47,12 @@ public class RunShooter extends CommandBase {
         if (oi.isButtonPressed(OI.XBOX_BUTTON_LEFT_BUMPER)) requestedSpeed -= 0.1;
         else if (oi.isButtonPressed(OI.XBOX_BUTTON_RIGHT_BUMPER)) requestedSpeed += 0.1;
         
-        //y outputs the requested speed and compares it to the actual speed
-        if (oi.isButtonPressed(OI.XBOX_BUTTON_Y)) {
-            System.out.println("Requested Speed: " + requestedSpeed + " Actual Speed: " + shooter.getSpeed());
-        }
-        
         //set the shooter to the requested speed
         shooter.setSpeed(requestedSpeed);
+        
+        //write the data to SmartDashboard
+        SmartDashboard.putNumber("Requested Speed", requestedSpeed);
+        SmartDashboard.putNumber("Actual Speed", shooter.getSpeed());
     }
 
     // Make this return true when this Command no longer needs to run execute()
