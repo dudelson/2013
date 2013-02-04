@@ -3,7 +3,9 @@ learn how to edit ANT scripts => Helper Classes - https://github.com/pordonj/frc
 
 Extensive study of wpilibj documentation => Read source code
 Read opencv documentation: docs.opencv.org/java/ => Read source code
-
+vision tracking info threads:
+http://www.chiefdelphi.com/forums/showthread.php?t=111100
+http://www.chiefdelphi.com/forums/showthread.php?t=106121
 
 =====================2013 Software Setup=====================
 http://www.usfirst.org/roboticsprograms/frc/2013-Technical-Resources
