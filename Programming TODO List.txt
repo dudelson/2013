@@ -1,0 +1,26 @@
+learn how to edit ANT scripts => Helper Classes - https://github.com/pordonj/frc1675-2012/blob/master/src/org/frc1675/driver/XBoxController.java
+					        - Galen's Vison tracking code?
+
+Extensive study of wpilibj documentation => Read source code
+Read opencv documentation: docs.opencv.org/java/ => Read source code
+
+
+=====================2013 Software Setup=====================
+http://www.usfirst.org/roboticsprograms/frc/2013-Technical-Resources
+(1) http://www.usfirst.org/sites/default/files/uploadedFiles/Robotics_Programs/FRC/Game_and_Season__Info/2013/GettingStartedwiththe2013FRCControlSystem.pdf
+(2) http://wpilib.screenstepslive.com/s/3120/m/7885/l/79405-installing-the-java-development-tools
+(3) http://wpilib.screenstepslive.com/s/3120/m/8559/l/89639?data-resolve=true&data-manual-id=8559
+(4) http://wpilib.screenstepslive.com/s/3120/m/8559/l/91405-programming-your-radio-for-home-use
+	- (3) REQUIRED install "FRC Tools" (included in KOP)
+	- (2) latest version of netbeans? (need v6.7 or later)
+	- (2) 2013 Java update
+	- (3) REQUIRED labview utilities update
+	- It is **NOT** required for veteran teams to re-image their classmates
+	- (1) update classmate software (p. 8-9)
+	- (1, 3) re-image cRIO (p. 10-12, link @ bottom of (3))
+
+	- (1) Classmate <=> cRIO wired communications test (p. 12-13)
+	- (4) configure wireless bridge w/ 2013 FRC Bridge Configuration Utility
+	- (1) FRC LAN <=> cRIO wireless communication test (p. 19-20)
+	- Downloaded program test (use last year's competition program or something)
+	- ^^ remember to test camera
