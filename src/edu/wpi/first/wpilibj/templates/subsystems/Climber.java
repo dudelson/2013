@@ -8,60 +8,39 @@ import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.command.*;
 import edu.wpi.first.wpilibj.templates.commands.*;
 
-
 /**
  *
  * @author David
  */
-public class FrisbeeShooter extends Subsystem {
+public class Climber extends Subsystem {
     //the motor that spins the shooter
-    private Victor shooterMotor;
-    private Servo servo1;
-    private Servo servo2;
+    private Victor climberMotor;
     //is the shooter on or off
     private boolean isOn;
     
-    public FrisbeeShooter() {
-        shooterMotor = new Victor(5);
-        servo1 = new Servo(10);
-        servo2 = new Servo(9);
+    public Climber() {
+        climberMotor = new Victor(6);
     }
     
     protected void initDefaultCommand() {
         //this subsystem will look for input from the xbox by default
-        setDefaultCommand(new RunShooter());
+        setDefaultCommand(new RunClimber());
     }
     
     public void shoot(double angle, double speed) {
         //possibly implemented later
     }
     
-    public void activatefrisbeefeeder() {
-        servo1.set(0.0);
-        servo2.set(1.0);
-    }
-    
-    public void resetfrisbeefeeder() {
-        servo1.set(1.0);
-        servo2.set(0.0);
-   }
-    
-//return the current speed of the shooter motor
+    //return the current speed of the shooter motor
     public double getSpeed() {
-        return shooterMotor.get();
+        return climberMotor.get();
     }
     
     //set the speed of the shooter motor
     //if the shooter is supposed to be off, set the speed to 0
     public void setSpeed(double speed) {
-        if (isOn) 
-        {
-            shooterMotor.set(speed);
-        }
-        else 
-        {
-            shooterMotor.set(0.0);
-        }
+        if (isOn) climberMotor.set(speed);
+        else climberMotor.set(0.0);
     }
     
     //returns true if the shooter is on
