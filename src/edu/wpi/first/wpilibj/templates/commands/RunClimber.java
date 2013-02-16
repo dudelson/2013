@@ -5,69 +5,60 @@
 package edu.wpi.first.wpilibj.templates.commands;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.templates.OI;
+import edu.wpi.first.wpilibj.templates.Team1512Joystick;
 
 /**
  *
  * @author robot
  */
 public class RunClimber extends CommandBase {
-    //the speed we want the shooter to run at (must be between -1.0 and 1.0)
-    private double requestedSpeed;
+    /* The climber class is controlled by xbox #1.
+     * This class is very similar to RunShooter with the exception of
+     * the victor speed, which is always either 1.0 or -1.0
+     */
     
     public RunClimber() {
-        //reserve the shooter
+        //reserve the climber
         requires(climber);
-        //shooter is initially not spinning
-        requestedSpeed = 0.0;
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-        //the shooter is initially off
+        //the climber is initially off
         SmartDashboard.putString("Climber: ", "OFF");
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-        //b toggles the shooter on/off
-        if (oi.isButtonPressed(OI.XBOX_BUTTON_Y)) {
+        //y toggles the climber on/off
+        if (OI.xbox1.isButtonPressed(Team1512Joystick.XBOX_BUTTON_Y)) {
             if (climber.isOn()) {
                 climber.turnOff();
-                //write the state of the shooter to the Smart Dashboard
+                //write the state of the climber to the Smart Dashboard
                 SmartDashboard.putString("Climber: ", "OFF");
-                System.out.println("Climber off");
-            }
-            else {
+                //System.out.println("Climber off");
+            } else {
                 climber.turnOn();
                 //write the state of the shooter to the Smart Dashboard
                 SmartDashboard.putString("Climber: ", "ON");
-                 System.out.println("Climber on");
+                //System.out.println("Climber on");
            }
         }
         
-        //the left/right bumpers decrement/increment the speed, respectively
-        if (oi.isButtonHeldDown(OI.XBOX_BUTTON_BACK)) 
-            {
-                requestedSpeed -= 0.1; //old method decrement speed variable
-                climber.setSpeed(-1.0); //new method - move full down while pressed
-            }
-        else if (oi.isButtonHeldDown(OI.XBOX_BUTTON_START)) 
-            {
-                requestedSpeed += 0.1; //old method increment speed variable
-                  climber.setSpeed(1.0); //new method - move fullspeed up while pressed
-          }
-        else
-        {
-              climber.setSpeed(0.0);//new method - else don't move
+        //A toggles climber up/down
+        if (OI.xbox1.isButtonPressed(Team1512Joystick.XBOX_BUTTON_A) && climber.isUp()) {
+            climber.moveDown(); //new method - move full down while pressed
+            //write the current state to the SmartDashboard
+            if (climber.isOn()) SmartDashboard.putString("Climber: ", "DOWN");
+        } else if (OI.xbox1.isButtonPressed(Team1512Joystick.XBOX_BUTTON_A) && !climber.isUp()) {
+            climber.moveUp();  //new method - move fullspeed up while pressed
+            //write the current state to the SmartDashboard
+            if (climber.isOn()) SmartDashboard.putString("Climber: ", "UP");
+        } else {
+            climber.setSpeed(0.0);  //new method - else don't move
+            //write the current state to the SmartDashboard
+            if (climber.isOn()) SmartDashboard.putString("Climber: ", "ON");
         }
-        
-        //set the shooter to the requested speed
-      //
-      //Old method using requestedspeed variable  climber.setSpeed(requestedSpeed);
-        
-        //write the data to SmartDashboard
-        SmartDashboard.putNumber("Climb Requested Speed", requestedSpeed);
-        SmartDashboard.putNumber("Climb Actual Speed", climber.getSpeed());
     }
 
     // Make this return true when this Command no longer needs to run execute()

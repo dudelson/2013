@@ -5,6 +5,7 @@
 package edu.wpi.first.wpilibj.templates.commands;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.templates.OI;
+import edu.wpi.first.wpilibj.templates.Team1512Joystick;
 
 /**
  *
@@ -18,78 +19,70 @@ public class RunShooter extends CommandBase {
     public RunShooter() {
         //reserve the shooter
         requires(shooter);
-        //shooter is initially not spinning
-        requestedSpeed = 0.0;
-        display=true;
-        shooter.resetfrisbeefeeder();
-        System.out.println("Starting with frisbee feeder reset");
-
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
+        //shooter is initially not spinning
+        requestedSpeed = 0.0;
+        //frisbee feeder is initially reset
+        shooter.resetFrisbeeFeeder();
+        //System.out.println("Starting with frisbee feeder reset");
         //the shooter is initially off
-        
         SmartDashboard.putString("Shooter: ", "OFF");
-         System.out.println(" Starting with Shooter Off");
+        //System.out.println(" Starting with Shooter Off");
    }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-        //b toggles the shooter on/off
-        if (oi.isButtonPressed(OI.XBOX_BUTTON_B)) {
+        //X toggles the shooter on/off
+        if (OI.xbox2.isButtonPressed(Team1512Joystick.XBOX_BUTTON_X)) {
             if (shooter.isOn()) {
                 shooter.turnOff();
                 //write the state of the shooter to the Smart Dashboard
                 SmartDashboard.putString("Shooter: ", "OFF");
-                System.out.println("Shooter Off");
-                requestedSpeed=0; //so shooter always starts from zero when turned on.
+                //System.out.println("Shooter Off");
+                //so shooter always starts from zero when turned on.
+                requestedSpeed = 0.0;
             }
             else {
                 shooter.turnOn();
                 //write the state of the shooter to the Smart Dashboard
-                System.out.println("Shooter On");
+                //System.out.println("Shooter On");
                 SmartDashboard.putString("Shooter: ", "ON");
             }
         }
         
-        //the left/right bumpers decrement/increment the speed, respectively
-        if (oi.isButtonPressed(OI.XBOX_BUTTON_LEFT_BUMPER) && requestedSpeed>0.0) 
+        //Y/A on xbox 2 increment/decrement the speed, respectively
+        if (OI.xbox2.isButtonPressed(Team1512Joystick.XBOX_BUTTON_A) && requestedSpeed >= 0.0 && shooter.isOn()) 
         {
             requestedSpeed -= 0.1;
-            System.out.println("Down requestedSpeed=" + Double.toString(requestedSpeed));
-       }
-        else if (oi.isButtonPressed(OI.XBOX_BUTTON_RIGHT_BUMPER) && requestedSpeed<1.0) 
+            //System.out.println("Down requestedSpeed=" + Double.toString(requestedSpeed));
+        }
+        else if (OI.xbox2.isButtonPressed(Team1512Joystick.XBOX_BUTTON_Y) && requestedSpeed <= 1.0 && shooter.isOn()) 
         {
             requestedSpeed += 0.1;
-             System.out.println("Up requestedSpeed=" + Double.toString(requestedSpeed));
-       }
-        if (requestedSpeed<0)  //We never want shooter to go backwards
+            //System.out.println("Up requestedSpeed=" + Double.toString(requestedSpeed));
+        }
+        if (requestedSpeed < 0.0)  //We never want shooter to go backwards
         { 
-            requestedSpeed=0;
+            requestedSpeed = 0.0;
         }
         
         //set the shooter to the requested speed
         shooter.setSpeed(requestedSpeed * -1.0); //fastest shooter speed is -1.0
         
-     //Feed a frisbee into the shooter using A button
-    
-        if (oi.isButtonHeldDown(OI.XBOX_BUTTON_A) && shooter.isOn() ) {
-                 shooter.activatefrisbeefeeder(); 
-                 if(display==true)  
-                 {
-                     System.out.println("Feeding Frisbee");
-                     display=false; //so only print it once
-                 }
-                   
-            }
-            else {
-                shooter.resetfrisbeefeeder();
-                display=true;
-            }
+        //Feed a frisbee into the shooter using B button    
+        if (OI.xbox2.isButtonPressed(Team1512Joystick.XBOX_BUTTON_B) && shooter.isOn()) {
+            shooter.activateFrisbeeFeeder(); 
+            System.out.println("Feeding frisbee...");
+        } else {
+            shooter.resetFrisbeeFeeder();
+        }
         
+        //adjust shooter angle
+        shooter.changeAngle(OI.xbox2.getRawAxis(Team1512Joystick.XBOX_AXIS_RIGHT_Y));
 
-        
         //write the data to SmartDashboard
         SmartDashboard.putNumber("Requested Speed", requestedSpeed);
         SmartDashboard.putNumber("Actual Speed", shooter.getSpeed());

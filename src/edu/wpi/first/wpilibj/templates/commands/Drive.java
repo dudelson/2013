@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.command.*;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.templates.OI;
+import edu.wpi.first.wpilibj.templates.Team1512Joystick;
 
 /**
  *
@@ -36,7 +37,7 @@ public class Drive extends CommandBase {
     
     public void execute() {
         // x button toggles drive mode
-        if (oi.isButtonPressed(OI.XBOX_BUTTON_X)) {
+        if (OI.xbox1.isButtonPressed(Team1512Joystick.XBOX_BUTTON_X)) {
             driveMode = (driveMode+1) % 2;
         }
         
@@ -45,10 +46,12 @@ public class Drive extends CommandBase {
         //if the current drive mode is arcade, use only the left stick to drive
         switch (driveMode) {
             case DRIVE_MODE_TANK:
-                driveTrain.xboxTank(oi.getXboxYL() * -0.75, oi.getXboxYR() * -0.75);
+                driveTrain.xboxTank(OI.xbox1.getRawAxis(Team1512Joystick.XBOX_AXIS_LEFT_Y) * -0.75, 
+                        OI.xbox1.getRawAxis(Team1512Joystick.XBOX_AXIS_RIGHT_Y) * -0.75);
                 break;
             case DRIVE_MODE_ARCADE:
-                driveTrain.xboxArcade(oi.getXboxYL() * -0.75, oi.getXboxXL()*-1.0);
+                driveTrain.xboxArcade(OI.xbox1.getRawAxis(Team1512Joystick.XBOX_AXIS_LEFT_Y) * -0.75, 
+                        OI.xbox1.getRawAxis(Team1512Joystick.XBOX_AXIS_LEFT_X) * -0.75);
                 break;
         }
         //print the current drive mode to the SmartDashboard

@@ -6,6 +6,7 @@ package edu.wpi.first.wpilibj.templates.subsystems;
 
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.command.*;
+import edu.wpi.first.wpilibj.templates.RobotMap;
 import edu.wpi.first.wpilibj.templates.commands.*;
 
 /**
@@ -13,16 +14,12 @@ import edu.wpi.first.wpilibj.templates.commands.*;
  * @author David
  */
 public class DriveTrain extends Subsystem {
-    private static final int LEFT_PORT = 1;
-    private static final int RIGHT_PORT = 4;
-    
-    private Jaguar left;
-    private Jaguar right;
+    private Jaguar left, right;
     private RobotDrive drive;
     
     public DriveTrain() {
-        left = new Jaguar(LEFT_PORT);
-        right = new Jaguar(RIGHT_PORT);
+        left = new Jaguar(RobotMap.leftDriveMotor);
+        right = new Jaguar(RobotMap.rightDriveMotor);
         drive = new RobotDrive(left, right);
         drive.setSafetyEnabled(false);
     }

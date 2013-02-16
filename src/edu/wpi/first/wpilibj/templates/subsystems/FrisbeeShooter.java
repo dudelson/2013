@@ -6,6 +6,7 @@ package edu.wpi.first.wpilibj.templates.subsystems;
 
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.command.*;
+import edu.wpi.first.wpilibj.templates.RobotMap;
 import edu.wpi.first.wpilibj.templates.commands.*;
 
 
@@ -16,15 +17,18 @@ import edu.wpi.first.wpilibj.templates.commands.*;
 public class FrisbeeShooter extends Subsystem {
     //the motor that spins the shooter
     private Victor shooterMotor;
-    private Servo servo1;
-    private Servo servo2;
+    //the victor that adjusts the angle of the shooter
+    private Victor angleVictor;
+    //servo motors for the frisbee feeder
+    private Servo feederServo1, feederServo2;
     //is the shooter on or off
     private boolean isOn;
     
     public FrisbeeShooter() {
-        shooterMotor = new Victor(5);
-        servo1 = new Servo(10);
-        servo2 = new Servo(9);
+        shooterMotor = new Victor(RobotMap.shooterVictor);
+        angleVictor = new Victor(RobotMap.shooterAngleVictor);
+        feederServo1 = new Servo(RobotMap.feederServo1);
+        feederServo2 = new Servo(RobotMap.feederServo2);
     }
     
     protected void initDefaultCommand() {
@@ -36,17 +40,17 @@ public class FrisbeeShooter extends Subsystem {
         //possibly implemented later
     }
     
-    public void activatefrisbeefeeder() {
-        servo1.set(0.0);
-        servo2.set(1.0);
+    public void activateFrisbeeFeeder() {
+        feederServo1.set(0.0);
+        feederServo2.set(1.0);
     }
     
-    public void resetfrisbeefeeder() {
-        servo1.set(1.0);
-        servo2.set(0.0);
-   }
+    public void resetFrisbeeFeeder() {
+        feederServo1.set(1.0);
+        feederServo2.set(0.0);
+    }
     
-//return the current speed of the shooter motor
+    //return the current speed of the shooter motor
     public double getSpeed() {
         return shooterMotor.get();
     }
@@ -62,6 +66,11 @@ public class FrisbeeShooter extends Subsystem {
         {
             shooterMotor.set(0.0);
         }
+    }
+    
+    //change the angle of the shooter
+    public void changeAngle(double rate) {
+        if(isOn) angleVictor.set(rate);
     }
     
     //returns true if the shooter is on
