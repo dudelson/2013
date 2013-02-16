@@ -56,6 +56,12 @@ public class OI {
     public double getXboxXR() {
         return xbox.getRawAxis(XBOX_AXIS_RIGHT_X);
     }
+    //@Nate 
+    //adding some triggers for arcade drive
+    
+    public double getXboxTRG() {
+        return xbox.getRawAxis(XBOX_AXIS_TRIGGER);
+    }
     
     /* This method returns true ONLY ONCE when a button is
      * pressed/held down. That is, when the user initially
@@ -75,11 +81,25 @@ public class OI {
             buttonStates[button - 1] = true;
             return true;
         }
-        if (!xbox.getRawButton(button)) buttonStates[button - 1] = false;
+        if (!xbox.getRawButton(button)) 
+        {
+            buttonStates[button - 1] = false;
+        }
         return false;
     } 
     
-    //// CREATING BUTTONS
+     public boolean isButtonHeldDown(int button) {
+        if (xbox.getRawButton(button) ) {
+            buttonStates[button - 1] = true;
+            return true;
+        }
+        if (!xbox.getRawButton(button)) 
+        {
+            buttonStates[button - 1] = false;
+        }
+        return false;
+    } 
+   //// CREATING BUTTONS
     // One type of button is a joystick button which is any button on a joystick.
     // You create one by telling it which joystick it's on and which button
     // number it is.

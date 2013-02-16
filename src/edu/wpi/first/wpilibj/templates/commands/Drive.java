@@ -45,10 +45,10 @@ public class Drive extends CommandBase {
         //if the current drive mode is arcade, use only the left stick to drive
         switch (driveMode) {
             case DRIVE_MODE_TANK:
-                driveTrain.xboxTank(oi.getXboxYL() * 0.75, oi.getXboxYR() * 0.75);
+                driveTrain.xboxTank(oi.getXboxYL() * -0.75, oi.getXboxYR() * -0.75);
                 break;
             case DRIVE_MODE_ARCADE:
-                driveTrain.xboxArcade(oi.getXboxYL() * 0.75, oi.getXboxXL());
+                driveTrain.xboxArcade(oi.getXboxYL() * -0.75, oi.getXboxXL()*-1.0);
                 break;
         }
         //print the current drive mode to the SmartDashboard
