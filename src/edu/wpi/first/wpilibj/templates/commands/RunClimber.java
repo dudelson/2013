@@ -31,7 +31,7 @@ public class RunClimber extends CommandBase {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
         //y toggles the climber on/off
-        if (OI.xbox1.isButtonPressed(Team1512Joystick.XBOX_BUTTON_Y)) {
+        if (OI.xbox1.isButtonPressed(Team1512Joystick.XBOX_BUTTON_B)) {
             if (climber.isOn()) {
                 climber.turnOff();
                 //write the state of the climber to the Smart Dashboard
@@ -45,19 +45,21 @@ public class RunClimber extends CommandBase {
            }
         }
         
-        //A toggles climber up/down
-        if (OI.xbox1.isButtonPressed(Team1512Joystick.XBOX_BUTTON_A) && climber.isOn()) {
-            climber.moveDown(); //new method - move full down while pressed
-            //write the current state to the SmartDashboard
-            SmartDashboard.putString("Climber: ", "DOWN");
-        } else if (OI.xbox1.isButtonPressed(Team1512Joystick.XBOX_BUTTON_A) && !climber.isOn()) {
-            climber.moveUp();  //new method - move fullspeed up while pressed
-            //write the current state to the SmartDashboard
-            SmartDashboard.putString("Climber: ", "UP");
-        } else {
-            climber.setSpeed(0.0);  //new method - else don't move
-            //write the current state to the SmartDashboard
-            SmartDashboard.putString("Climber: ", "ON");
+        //Y => climber up, A => climber down
+        if (climber.isOn()) {
+            if (OI.xbox1.getRawButton(Team1512Joystick.XBOX_BUTTON_A)) {
+                climber.moveDown(); //new method - move full down while pressed
+                //write the current state to the SmartDashboard
+                SmartDashboard.putString("Climber: ", "DOWN");
+            } else if (OI.xbox1.getRawButton(Team1512Joystick.XBOX_BUTTON_Y)) {
+                climber.moveUp();  //new method - move fullspeed up while pressed
+                //write the current state to the SmartDashboard
+                SmartDashboard.putString("Climber: ", "UP");
+            } else {
+                climber.setSpeed(0.0);  //new method - else don't move
+                //write the current state to the SmartDashboard
+                SmartDashboard.putString("Climber: ", "ON");
+            }
         }
     }
 

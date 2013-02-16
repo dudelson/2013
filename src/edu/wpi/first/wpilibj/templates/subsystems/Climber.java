@@ -18,13 +18,10 @@ public class Climber extends Subsystem {
     private Victor climberMotor;
     //is the climber on or off
     private boolean isOn;
-    //is the climber up or down (assuming it's on)
-    private boolean isUp;
     
     public Climber() {
         climberMotor = new Victor(RobotMap.climberVictor);
         isOn = false; 
-        isUp = false;
     }
     
     protected void initDefaultCommand() {
@@ -43,21 +40,14 @@ public class Climber extends Subsystem {
         climberMotor.set(speed);
     }
     
-    //is the climber up (raised)
-    public boolean isUp() {
-        return isUp;
-    }
-    
     //move the climber into the "down" position
     public void moveDown() {
         setSpeed(-1.0);
-        isUp = false;
     }
     
     //move the climber into the "up" (raised) position
     public void moveUp() {
         setSpeed(1.0);
-        isUp = true;
     }
     
     //returns true if the motor is on
