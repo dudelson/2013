@@ -64,10 +64,10 @@ public class RunShooter extends CommandBase {
             requestedSpeed += 0.1;
             //System.out.println("Up requestedSpeed=" + Double.toString(requestedSpeed));
         }
-        if (requestedSpeed < 0.0)  //We never want shooter to go backwards
-        { 
-            requestedSpeed = 0.0;
-        }
+        //We never want shooter to go backwards
+        if (requestedSpeed < 0.0) requestedSpeed = 0.0;
+        //or go faster than the maximum
+        if (requestedSpeed > 1.0) requestedSpeed = 1.0;
         
         //set the shooter to the requested speed
         shooter.setSpeed(requestedSpeed * -1.0); //fastest shooter speed is -1.0
@@ -81,7 +81,9 @@ public class RunShooter extends CommandBase {
         }
         
         //adjust shooter angle
-        shooter.changeAngle(OI.xbox2.getRawAxis(Team1512Joystick.XBOX_AXIS_RIGHT_Y));
+        if (shooter.isOn()) {
+            shooter.changeAngle(OI.xbox2.getRawAxis(Team1512Joystick.XBOX_AXIS_RIGHT_Y));
+        }
 
         //write the data to SmartDashboard
         SmartDashboard.putNumber("Requested Speed", requestedSpeed);

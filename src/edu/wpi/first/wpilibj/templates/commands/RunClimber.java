@@ -46,18 +46,18 @@ public class RunClimber extends CommandBase {
         }
         
         //A toggles climber up/down
-        if (OI.xbox1.isButtonPressed(Team1512Joystick.XBOX_BUTTON_A) && climber.isUp()) {
+        if (OI.xbox1.isButtonPressed(Team1512Joystick.XBOX_BUTTON_A) && climber.isOn()) {
             climber.moveDown(); //new method - move full down while pressed
             //write the current state to the SmartDashboard
-            if (climber.isOn()) SmartDashboard.putString("Climber: ", "DOWN");
-        } else if (OI.xbox1.isButtonPressed(Team1512Joystick.XBOX_BUTTON_A) && !climber.isUp()) {
+            SmartDashboard.putString("Climber: ", "DOWN");
+        } else if (OI.xbox1.isButtonPressed(Team1512Joystick.XBOX_BUTTON_A) && !climber.isOn()) {
             climber.moveUp();  //new method - move fullspeed up while pressed
             //write the current state to the SmartDashboard
-            if (climber.isOn()) SmartDashboard.putString("Climber: ", "UP");
+            SmartDashboard.putString("Climber: ", "UP");
         } else {
             climber.setSpeed(0.0);  //new method - else don't move
             //write the current state to the SmartDashboard
-            if (climber.isOn()) SmartDashboard.putString("Climber: ", "ON");
+            SmartDashboard.putString("Climber: ", "ON");
         }
     }
 

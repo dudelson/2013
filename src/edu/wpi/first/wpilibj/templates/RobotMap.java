@@ -11,7 +11,7 @@ public class RobotMap {
     public static final int rightDriveMotor = 4;
     
     public static final int shooterVictor = 5;
-    public static final int shooterAngleVictor = 0; //CHANGE TO ACTUAL VALUE LATER
+    public static final int shooterAngleVictor = 7; //CHANGE TO ACTUAL VALUE LATER
     public static final int feederServo1 = 10;
     public static final int feederServo2 = 9;
     

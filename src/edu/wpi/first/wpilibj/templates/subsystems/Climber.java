@@ -40,8 +40,7 @@ public class Climber extends Subsystem {
     //set the speed of the motor
     //if the motor is supposed to be off, set the speed to 0
     public void setSpeed(double speed) {
-        if (isOn) climberMotor.set(speed);
-        else climberMotor.set(0.0);
+        climberMotor.set(speed);
     }
     
     //is the climber up (raised)
