@@ -28,14 +28,27 @@ public class DriveTrain extends Subsystem {
         setDefaultCommand(new Drive());
     }
     
-    public void turnLeft() {
-        
+    //drive in a straight line
+    public void driveStraight(double speed) {
+        drive.drive(speed, 0.0);
     }
     
-    public void turnRight() {
-        
+    //turn left
+    public void turnLeft(double speed) {
+        drive.drive(speed, -1.0);
     }
     
+    //turn right
+    public void turnRight(double speed) {
+        drive.drive(speed, 1.0);
+    }
+    
+    //stop moving
+    public void stop() {
+        drive.drive(0.0, 0.0);
+    }
+    
+    //the below are to be used with the teleop command for user-controlled driving
     public void xboxArcade(double move, double rotate) {
         drive.arcadeDrive(move, rotate);
     }

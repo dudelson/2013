@@ -58,7 +58,7 @@ public class FrisbeeShooter extends Subsystem {
     //set the speed of the shooter motor
     //if the shooter is supposed to be off, set the speed to 0
     public void setSpeed(double speed) {
-        shooterMotor.set(speed);
+        shooterMotor.set(-speed);
     }
     
     //change the angle of the shooter

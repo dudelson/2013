@@ -70,7 +70,7 @@ public class RunShooter extends CommandBase {
         if (requestedSpeed > 1.0) requestedSpeed = 1.0;
         
         //set the shooter to the requested speed
-        shooter.setSpeed(requestedSpeed * -1.0); //fastest shooter speed is -1.0
+        shooter.setSpeed(requestedSpeed); //fastest shooter speed is -1.0
         
         //Feed a frisbee into the shooter using B button    
         if (OI.xbox2.isButtonPressed(Team1512Joystick.XBOX_BUTTON_B) && shooter.isOn()) {
