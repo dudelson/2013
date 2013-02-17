@@ -34,7 +34,10 @@ public class RobotTemplate extends IterativeRobot {
         CommandBase.init();
         //init the smartdashboard autonomous program chooser
         autonomousChooser = new SendableChooser();
-        autonomousChooser.addDefault("Test program", new ShootWithThree());
+        autonomousChooser.addDefault("Shoot with 3 from left", new ShooterAutonomous(3, true));
+        autonomousChooser.addObject("Shoot with 3 from right", new ShooterAutonomous(3, false));
+        autonomousChooser.addObject("Shoot with 2 from left", new ShooterAutonomous(2, true));
+        autonomousChooser.addObject("Shoot with 2 from right", new ShooterAutonomous(2, false));
         SmartDashboard.putData("Autonomous Program", autonomousChooser);
     }
 

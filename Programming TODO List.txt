@@ -3,9 +3,7 @@ learn how to edit ANT scripts => Helper Classes - https://github.com/pordonj/frc
 
 Extensive study of wpilibj documentation => Read source code
 Read opencv documentation: docs.opencv.org/java/ => Read source code
-add distance sensor => distance to power mapping
-create 4 autonomous programs with power variables that scale with the inverse of the battery voltage
-redo isOn/isOff functionality?
+add distance sensor => distance to power mappings
 
 =====================2013 Software Setup=====================
 http://www.usfirst.org/roboticsprograms/frc/2013-Technical-Resources

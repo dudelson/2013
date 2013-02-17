@@ -63,5 +63,6 @@ public class Climber extends Subsystem {
     //turn the motor off
     public void turnOff() {
         isOn = false;
+        setSpeed(0.0);
     }
 }

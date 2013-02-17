@@ -81,5 +81,6 @@ public class FrisbeeShooter extends Subsystem {
     //turn the shooter off
     public void turnOff() {
         isOn = false;
+        setSpeed(0.0);
     }
 }

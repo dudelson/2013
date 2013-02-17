@@ -75,14 +75,8 @@ public class RunShooter extends CommandBase {
         //Feed a frisbee into the shooter using B button    
         if (OI.xbox2.isButtonPressed(Team1512Joystick.XBOX_BUTTON_B) && shooter.isOn()) {
             shooter.activateFrisbeeFeeder(); 
-            System.out.println("Feeding frisbee...");
         } else {
             shooter.resetFrisbeeFeeder();
-        }
-        
-        //adjust shooter angle
-        if (shooter.isOn()) {
-            shooter.changeAngle(OI.xbox2.getRawAxis(Team1512Joystick.XBOX_AXIS_RIGHT_Y));
         }
 
         //write the data to SmartDashboard
