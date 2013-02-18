@@ -6,12 +6,22 @@ package edu.wpi.first.wpilibj.templates;
  * the wiring easier and significantly reduces the number of magic numbers
  * floating around.
  */
+
+/* ULTRASONIC SENSOR DATA:
+ *     10ft. => 1.174v - 1.184v (avg. 1.179)
+ *     5ft.  => 0.567v - 0.577v (avg. 0.572)
+ */
 public class RobotMap {
+    public static final int ultrasonic_sensor = 3;
+    public static final int quad_encoder_A = 1;
+    public static final int quad_encoder_B = 2;
+    public static final int lim_switch_up = 14;
+    public static final int lim_switch_down = 13;
+    
     public static final int leftDriveMotor = 1;
     public static final int rightDriveMotor = 4;
     
     public static final int shooterVictor = 5;
-    public static final int shooterAngleVictor = 7; //CHANGE TO ACTUAL VALUE LATER
     public static final int feederServo1 = 10;
     public static final int feederServo2 = 9;
     

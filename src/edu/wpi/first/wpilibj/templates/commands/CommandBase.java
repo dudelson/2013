@@ -1,12 +1,9 @@
 package edu.wpi.first.wpilibj.templates.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.templates.OI;
-import edu.wpi.first.wpilibj.*;
-
 import edu.wpi.first.wpilibj.templates.subsystems.*;
-//import edu.wpi.first.wpilibj.templates.subsystems.*;
+
 /**
  * The base for all commands. All atomic commands should subclass CommandBase.
  * CommandBase stores creates and stores each control system. To access a
@@ -20,7 +17,7 @@ public abstract class CommandBase extends Command {
     // Create a single static instance of all of your subsystems
     public static DriveTrain driveTrain = new DriveTrain();
     public static FrisbeeShooter shooter = new FrisbeeShooter();
-   public static Climber climber = new Climber();
+    public static Climber climber = new Climber();
    
 
     public static void init() {

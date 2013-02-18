@@ -6,6 +6,7 @@ package edu.wpi.first.wpilibj.templates.commands;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
@@ -19,7 +20,7 @@ import edu.wpi.first.wpilibj.Timer;
  * TURNING:
  * 1s @ .5 power => 30deg
  * 
- * 12v => 75% power 
+ * 12v => 83% power 
  */
 public class ShooterAutonomous extends CommandBase {
     /* This is the default autonomous command, to be used when the robot
@@ -65,7 +66,9 @@ public class ShooterAutonomous extends CommandBase {
         //activate the shooter first so that it's up to speed
         //by the time we need to shoot
         shooter.turnOn();
-        shooter.setSpeed(POWER_CONSTANT / DriverStation.getInstance().getBatteryVoltage());
+        double power = POWER_CONSTANT / DriverStation.getInstance().getBatteryVoltage();
+        shooter.setSpeed(power);
+        SmartDashboard.putNumber("Requested shooter speed (auto): ", power);
         //drive to the shooting position
         driveTrain.driveStraight(0.5);
         Timer.delay(1.3);
@@ -82,7 +85,9 @@ public class ShooterAutonomous extends CommandBase {
         //FIRE!
         for (int i=0; i<numShots; i++) {
             //update the shooter speed each loop
-            shooter.setSpeed(POWER_CONSTANT / DriverStation.getInstance().getBatteryVoltage());
+            power = POWER_CONSTANT / DriverStation.getInstance().getBatteryVoltage();
+            shooter.setSpeed(power);
+            SmartDashboard.putNumber("Requested shooter speed (auto): ", power);
             shooter.activateFrisbeeFeeder();
             Timer.delay(2.0);
             shooter.resetFrisbeeFeeder();

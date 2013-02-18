@@ -59,7 +59,12 @@ public class RobotTemplate extends IterativeRobot {
         // teleop starts running. If you want the autonomous to 
         // continue until interrupted by another command, remove
         // this line or comment it out.
-        autonomousProgram.cancel();
+        
+        //only cancel the autonomous if we've already used it.
+        //only necessary for teleop testing
+        if (autonomousProgram != null) {
+            autonomousProgram.cancel();
+        }
     }
 
     /**
