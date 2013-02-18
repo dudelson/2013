@@ -25,7 +25,7 @@ public class DriveTrain extends Subsystem {
     }
     
     protected void initDefaultCommand() {
-        setDefaultCommand(new Drive());
+        //setDefaultCommand(new Drive());
     }
     
     //drive in a straight line

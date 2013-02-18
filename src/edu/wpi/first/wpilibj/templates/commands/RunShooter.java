@@ -27,6 +27,9 @@ public class RunShooter extends CommandBase {
         requestedSpeed = 0.0;
         //frisbee feeder is initially reset
         shooter.resetFrisbeeFeeder();
+        //reset and start the counter
+        shooter.resetCounter();
+        shooter.startCounter();
         //System.out.println("Starting with frisbee feeder reset");
         //the shooter is initially off
         SmartDashboard.putString("Shooter: ", "OFF");       
@@ -83,6 +86,7 @@ public class RunShooter extends CommandBase {
         SmartDashboard.putNumber("Actual Speed: ", shooter.getSpeed());
         SmartDashboard.putNumber("Distance (ft.): ", shooter.getUltrasonicDist());
         SmartDashboard.putNumber("Actual Speed (rpm): ", shooter.getCounterRPM());
+        SmartDashboard.putNumber("Rev: ", shooter.getCounterRev());
     }
 
     // Make this return true when this Command no longer needs to run execute()

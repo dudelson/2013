@@ -24,7 +24,11 @@ import edu.wpi.first.wpilibj.templates.commands.*;
  */
 public class RobotTemplate extends IterativeRobot {
     private Command autonomousProgram;
-    private SendableChooser autonomousChooser;
+    private SendableChooser autonomousChooser;    
+    private Drive drive = new Drive();
+    private RunShooter shooter = new RunShooter();
+    private RunClimber climber = new RunClimber();
+    
     /**
      * This function is run when the robot is first started up and should be
      * used for any initialization code.
@@ -65,6 +69,10 @@ public class RobotTemplate extends IterativeRobot {
         if (autonomousProgram != null) {
             autonomousProgram.cancel();
         }
+        
+        drive.start();
+        shooter.start();
+        climber.start();
     }
 
     /**
@@ -72,6 +80,12 @@ public class RobotTemplate extends IterativeRobot {
      */
     public void teleopPeriodic() {
         Scheduler.getInstance().run();
+    }
+    
+    public void disabledInit() {
+        drive.cancel();
+        shooter.cancel();
+        climber.cancel();
     }
     
     /**

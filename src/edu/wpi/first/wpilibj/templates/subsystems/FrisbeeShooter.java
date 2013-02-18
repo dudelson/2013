@@ -44,7 +44,7 @@ public class FrisbeeShooter extends Subsystem {
     
     protected void initDefaultCommand() {
         //this subsystem will look for input from the xbox by default
-        setDefaultCommand(new RunShooter());
+        //setDefaultCommand(new RunShooter());
     }
     
     public void shoot(double angle, double speed) {
@@ -66,9 +66,25 @@ public class FrisbeeShooter extends Subsystem {
         return shooterMotor.get();
     }
     
+    public void startCounter() {
+        counter.start();
+    }
+    
+    public void stopCounter() {
+        counter.stop();
+    }
+    
+    public void resetCounter() {
+        counter.reset();
+    }
+    
+    public double getCounterRev() {
+        return counter.get() / 250.0;
+    }
+    
     public double getCounterRPM() {
         double freq = 1.0 / counter.getPeriod();
-        return freq / 250.0 / 60.0;
+        return freq / 60.0;
     }
     
     public double getUltrasonicDist() {
@@ -97,5 +113,6 @@ public class FrisbeeShooter extends Subsystem {
     public void turnOff() {
         isOn = false;
         setSpeed(0.0);
+        counter.reset();
     }
 }

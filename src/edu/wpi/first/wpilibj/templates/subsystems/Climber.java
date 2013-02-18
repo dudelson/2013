@@ -26,7 +26,7 @@ public class Climber extends Subsystem {
     
     protected void initDefaultCommand() {
         //this subsystem will look for input from the xbox by default
-        setDefaultCommand(new RunClimber());
+        //setDefaultCommand(new RunClimber());
     }
     
     //return the current speed of the motor
