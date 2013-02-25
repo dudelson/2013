@@ -48,7 +48,7 @@ public class RunShooter extends CommandBase {
                 requestedSpeed = 0.0;
             }
             else {
-                shooter.turnOn();
+                shooter.turnOn(); 
                 //write the state of the shooter to the Smart Dashboard
                 //System.out.println("Shooter On");
                 SmartDashboard.putString("Shooter: ", "ON");

@@ -13,19 +13,18 @@ package edu.wpi.first.wpilibj.templates;
  */
 public class RobotMap {
     public static final int ultrasonic_sensor = 3;
-    public static final int quad_encoder_A = 1;
-    public static final int quad_encoder_B = 2;
-    public static final int lim_switch_up = 14;
+    public static final int quad_encoder_A  = 1;
+    public static final int quad_encoder_B  = 2;
+    public static final int lim_switch_up   = 14;
     public static final int lim_switch_down = 13;
     
-    public static final int leftDriveMotor = 1;
+    public static final int leftDriveMotor  = 1;
     public static final int rightDriveMotor = 4;
     
-    public static final int shooterVictor = 5;
-    public static final int feederServo1 = 10;
-    public static final int feederServo2 = 9;
+    public static final int shooterVictor   = 5;
+    public static final int feederRelay     = 1;
     
-    public static final int climberVictor = 6;
+    public static final int climberVictor   = 6;
     
     // For example to map the left and right motors, you could define the
     // following variables to use with your drivetrain subsystem.

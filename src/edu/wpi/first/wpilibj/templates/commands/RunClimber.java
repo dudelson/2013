@@ -41,17 +41,17 @@ public class RunClimber extends CommandBase {
                 climber.turnOn();
                 //write the state of the shooter to the Smart Dashboard
                 SmartDashboard.putString("Climber: ", "ON");
-                //System.out.println("Climber on");
+                //System.out.println("Climber on");                                   
            }
         }
         
         //Y => climber up, A => climber down
         if (climber.isOn()) {
-            if (OI.xbox1.getRawButton(Team1512Joystick.XBOX_BUTTON_A)) {
+            if (OI.xbox1.getRawButton(Team1512Joystick.XBOX_BUTTON_A) && !climber.isLowerLim()) {
                 climber.moveDown(); //new method - move full down while pressed
                 //write the current state to the SmartDashboard
                 SmartDashboard.putString("Climber: ", "DOWN");
-            } else if (OI.xbox1.getRawButton(Team1512Joystick.XBOX_BUTTON_Y)) {
+            } else if (OI.xbox1.getRawButton(Team1512Joystick.XBOX_BUTTON_Y) && !climber.isUpperLim()) {
                 climber.moveUp();  //new method - move fullspeed up while pressed
                 //write the current state to the SmartDashboard
                 SmartDashboard.putString("Climber: ", "UP");

@@ -23,8 +23,6 @@ public class FrisbeeShooter extends Subsystem {
     private static final double ULTRASONIC_K = 10.0 / 1.179;
     //the motor that spins the shooter
     private Victor shooterMotor;
-    //the victor that adjusts the angle of the shooter
-    private Servo feederServo1, feederServo2;
     //is the shooter on or off
     private boolean isOn;    
     //the ultrasonic distance sensor
@@ -33,13 +31,24 @@ public class FrisbeeShooter extends Subsystem {
     //it is a counter because only one channel works
     Counter counter;
     
+    //TESTING
+    Timer timer;
+    Relay feeder1;
+    boolean relayworking, relayclockwise;
+    
     public FrisbeeShooter() {
         shooterMotor = new Victor(RobotMap.shooterVictor);
-        feederServo1 = new Servo(RobotMap.feederServo1);
-        feederServo2 = new Servo(RobotMap.feederServo2);
+
         ultrasonic_sensor = new AnalogChannel(RobotMap.ultrasonic_sensor);
         counter = new Counter(1, 2);
+
         isOn = false;
+        
+        //TESTING
+        timer = new Timer();
+        feeder1 = new Relay(RobotMap.feederRelay);
+        relayworking = false;
+        relayclockwise = true;
     }
     
     protected void initDefaultCommand() {
@@ -52,13 +61,50 @@ public class FrisbeeShooter extends Subsystem {
     }
     
     public void activateFrisbeeFeeder() {
-        feederServo1.set(0.0);
-        feederServo2.set(1.0);
-    }
+        timer.reset();
+        timer.start(); //start feeder movement
+        relayworking=true;
+        relayclockwise=true;
+   }
     
     public void resetFrisbeeFeeder() {
-        feederServo1.set(1.0);
-        feederServo2.set(0.0);
+        if (relayworking && relayclockwise)
+        {
+           feeder1.set(Relay.Value.kForward);
+        }
+        else if (relayworking && !relayclockwise)
+        {
+           feeder1.set(Relay.Value.kReverse);
+        }
+        else
+        {
+            feeder1.set(Relay.Value.kOff);
+        }
+        
+        if ((relayworking && timer.get()>0.5 && relayclockwise)
+                ||
+             (relayworking && timer.get()>0.52 && !relayclockwise)) //returns microseconds
+        {
+            if (relayclockwise) //if we went clockwise for 500msec, set up for counterclock
+            {
+                relayclockwise=false;
+                timer.reset();
+                timer.start();
+            }
+            else
+            {                       //if done counterclock, then end and prepare for next shot
+                relayclockwise=true;
+                relayworking=false;
+                timer.reset();
+                timer.stop();
+            }
+
+        }
+            
+        if (!relayworking)
+        {
+            feeder1.set(Relay.Value.kOff);
+        }
     }
     
     //return the current speed of the shooter motor

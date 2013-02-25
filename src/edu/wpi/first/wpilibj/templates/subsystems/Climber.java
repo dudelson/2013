@@ -16,11 +16,15 @@ import edu.wpi.first.wpilibj.templates.commands.*;
 public class Climber extends Subsystem {
     //the motor that spins the shooter
     private Victor climberMotor;
+    //upper and lower lim switches
+    private DigitalInput limUp, limDown;
     //is the climber on or off
     private boolean isOn;
     
     public Climber() {
         climberMotor = new Victor(RobotMap.climberVictor);
+        limUp = new DigitalInput(RobotMap.lim_switch_up);
+        limDown = new DigitalInput(RobotMap.lim_switch_down);
         isOn = false; 
     }
     
@@ -48,6 +52,14 @@ public class Climber extends Subsystem {
     //move the climber into the "up" (raised) position
     public void moveUp() {
         setSpeed(1.0);
+    }
+    
+    public boolean isUpperLim() {
+        return !limUp.get();
+    }
+    
+    public boolean isLowerLim() {
+        return !limDown.get();
     }
     
     //returns true if the motor is on
