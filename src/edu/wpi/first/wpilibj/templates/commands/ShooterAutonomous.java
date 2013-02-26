@@ -63,13 +63,19 @@ public class ShooterAutonomous extends CommandBase {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+        shooter.setSpeed(.4);
+        isFinished = true;
         //activate the shooter first so that it's up to speed
         //by the time we need to shoot
+        /*
         shooter.turnOn();
         double power = POWER_CONSTANT / DriverStation.getInstance().getBatteryVoltage();
-        shooter.setSpeed(power);
+        shooter.setSpeed(.5);
         SmartDashboard.putNumber("Requested shooter speed (auto): ", power);
+        Timer.delay(6);
+        */
         //drive to the shooting position
+        /*
         driveTrain.driveStraight(0.5);
         Timer.delay(1.3);
         driveTrain.stop();
@@ -82,20 +88,34 @@ public class ShooterAutonomous extends CommandBase {
         Timer.delay(2.0);
         driveTrain.stop();
         Timer.delay(2.0);
+        */
         //FIRE!
-        for (int i=0; i<numShots; i++) {
+        /*
+        for(int i=0; i<numShots; i++) {
             //update the shooter speed each loop
             power = POWER_CONSTANT / DriverStation.getInstance().getBatteryVoltage();
-            shooter.setSpeed(power);
+            shooter.setSpeed(.4);
             SmartDashboard.putNumber("Requested shooter speed (auto): ", power);
-            shooter.activateFrisbeeFeeder();
-            Timer.delay(2.0);
-            shooter.resetFrisbeeFeeder();
-            Timer.delay(1.0);
+            SmartDashboard.putNumber("numshots: ", 0);
+            //f;askdjf;lkdsaj;lkjdsajlkjfds
+            //stop
+            feeder.setBackward();
+            Timer.delay(0.1);
+            if (feeder.getLimStop()) {
+                feeder.turnOff();
+                isFinished = true;
+            //bump
+            } else if (feeder.getLimBump()) {
+                feeder.turnOff();
+                Timer.delay(0.1);
+                feeder.setForward();
+            }
         }
         //end the command
+        Timer.delay(5);
         shooter.turnOff();
         isFinished = true;
+        
         /* drive in a square test code
         driveTrain.driveStraight(0.5);
         Timer.delay(2.0);
@@ -140,10 +160,12 @@ public class ShooterAutonomous extends CommandBase {
 
     // Called once after isFinished returns true
     protected void end() {
+        System.out.println("[Auto] Finished!");
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
+        System.out.println("auto canceled!");
     }
 }

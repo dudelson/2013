@@ -49,6 +49,9 @@ public class RobotTemplate extends IterativeRobot {
         // schedule the autonomous command (example)
         autonomousProgram = (Command) autonomousChooser.getSelected();
         autonomousProgram.start();
+        new RunFeeder().start();
+        new RunFeeder().start();
+        new RunFeeder().start();
     }
 
     /**

@@ -23,8 +23,8 @@ public class Climber extends Subsystem {
     
     public Climber() {
         climberMotor = new Victor(RobotMap.climberVictor);
-        limUp = new DigitalInput(RobotMap.lim_switch_up);
-        limDown = new DigitalInput(RobotMap.lim_switch_down);
+        limUp = new DigitalInput(RobotMap.climber_lim_up);
+        limDown = new DigitalInput(RobotMap.climber_lim_down);
         isOn = false; 
     }
     

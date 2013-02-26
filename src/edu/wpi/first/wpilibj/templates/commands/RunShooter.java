@@ -25,8 +25,6 @@ public class RunShooter extends CommandBase {
     protected void initialize() {
         //shooter is initially not spinning
         requestedSpeed = 0.0;
-        //frisbee feeder is initially reset
-        shooter.resetFrisbeeFeeder();
         //reset and start the counter
         shooter.resetCounter();
         shooter.startCounter();
@@ -79,7 +77,7 @@ public class RunShooter extends CommandBase {
         //if feedFrisbee() returns false, this means the feeder did not complete its full range of
         //motion and needs to be reset
         if (OI.xbox2.isButtonPressed(Team1512Joystick.XBOX_BUTTON_B) && shooter.isOn()) {
-            if (!shooter.feedFrisbee()) shooter.resetFrisbeeFeeder();
+            new RunFeeder().start();
         }
 
         //write the data to SmartDashboard
