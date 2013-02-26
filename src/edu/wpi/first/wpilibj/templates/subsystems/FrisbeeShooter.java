@@ -32,9 +32,11 @@ public class FrisbeeShooter extends Subsystem {
     Counter counter;
     
     //TESTING
-    Timer timer;
+    //Timer timer;
     Relay feeder1;
-    boolean relayworking, relayclockwise;
+    DigitalInput limUp;
+    DigitalInput limDown;
+    //boolean relayworking, relayclockwise;
     
     public FrisbeeShooter() {
         shooterMotor = new Victor(RobotMap.shooterVictor);
@@ -45,10 +47,12 @@ public class FrisbeeShooter extends Subsystem {
         isOn = false;
         
         //TESTING
-        timer = new Timer();
+        //timer = new Timer();
         feeder1 = new Relay(RobotMap.feederRelay);
-        relayworking = false;
-        relayclockwise = true;
+        limUp = new DigitalInput(3);
+        limDown = new DigitalInput(4);
+        //relayworking = false;
+        //relayclockwise = true;
     }
     
     protected void initDefaultCommand() {
@@ -61,50 +65,55 @@ public class FrisbeeShooter extends Subsystem {
     }
     
     public void activateFrisbeeFeeder() {
-        timer.reset();
-        timer.start(); //start feeder movement
-        relayworking=true;
-        relayclockwise=true;
-   }
+        //timer.reset();
+        //timer.start(); //start feeder movement
+        //relayworking=true;
+        //relayclockwise=true;
+        
+        //if the feeder is in the "down" position (ready to feed)
+        if (limDown.get() == true && limUp.get() == false) {
+            feeder1.set(Relay.Value.kForward);
+        } else {
+            feeder1.set(Relay.Value.kOff);
+        }
+    }
     
     public void resetFrisbeeFeeder() {
-        if (relayworking && relayclockwise)
-        {
-           feeder1.set(Relay.Value.kForward);
-        }
-        else if (relayworking && !relayclockwise)
-        {
-           feeder1.set(Relay.Value.kReverse);
-        }
-        else
-        {
+        //if the feeder is in the "up" position (just fed frisbee)
+        if (limDown.get() == false && limUp.get() == true) {
+            feeder1.set(Relay.Value.kReverse);
+        } else {
             feeder1.set(Relay.Value.kOff);
         }
-        
-        if ((relayworking && timer.get()>0.5 && relayclockwise)
-                ||
-             (relayworking && timer.get()>0.52 && !relayclockwise)) //returns microseconds
-        {
-            if (relayclockwise) //if we went clockwise for 500msec, set up for counterclock
-            {
-                relayclockwise=false;
-                timer.reset();
-                timer.start();
-            }
-            else
-            {                       //if done counterclock, then end and prepare for next shot
-                relayclockwise=true;
-                relayworking=false;
-                timer.reset();
-                timer.stop();
-            }
-
-        }
-            
-        if (!relayworking)
-        {
-            feeder1.set(Relay.Value.kOff);
-        }
+    }
+    
+    //this method must be called periodically by the programmer
+    //to ensure the relay stops when it hits a lim switch!
+    public boolean checkFeederState() {
+        if (limUp.get() || limDown.get()) {
+            return true;
+        } else return false;
+    }
+    //Methods to explicitly set the state of the feeder relay
+    public void turnFeederOff() {
+        feeder1.set(Relay.Value.kOff);
+    }
+    
+    public void setFeederForward() {
+        feeder1.set(Relay.Value.kForward);
+    }
+    
+    public void setFeederBackward() {
+        feeder1.set(Relay.Value.kReverse);
+    }
+    
+    //Convenience methods to get the state of the lim switches separately
+    public boolean getFeederLimUp() {
+        return limUp.get();
+    }
+    
+    public boolean getFeederLimDown() {
+        return limDown.get();
     }
     
     //return the current speed of the shooter motor
