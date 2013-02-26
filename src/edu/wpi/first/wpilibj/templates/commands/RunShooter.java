@@ -74,11 +74,12 @@ public class RunShooter extends CommandBase {
         //set the shooter to the requested speed
         if (shooter.isOn()) shooter.setSpeed(requestedSpeed); //fastest shooter speed is -1.0
         
-        //Feed a frisbee into the shooter using B button    
+        //Feed a frisbee into the shooter using B button  
+        //feedFrisbee() returns a boolean indicating success (frisbee was fed)
+        //if feedFrisbee() returns false, this means the feeder did not complete its full range of
+        //motion and needs to be reset
         if (OI.xbox2.isButtonPressed(Team1512Joystick.XBOX_BUTTON_B) && shooter.isOn()) {
-            shooter.activateFrisbeeFeeder(); 
-        } else {
-            shooter.resetFrisbeeFeeder();
+            if (!shooter.feedFrisbee()) shooter.resetFrisbeeFeeder();
         }
 
         //write the data to SmartDashboard
