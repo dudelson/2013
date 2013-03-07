@@ -13,7 +13,7 @@ package edu.wpi.first.wpilibj.templates;
  */
 public class RobotMap {
     //analog module
-    public static final int ultrasonic_sensor = 3;
+    public static final int ultrasonic_sensor = 4;
     
     //digital module
     public static final int quad_encoder_A  = 1;

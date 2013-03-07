@@ -77,10 +77,10 @@ public class Drive extends CommandBase {
     }
     
     public void end() {
-        
+        driveTrain.stop();
     }
     
     public void interrupted() {
-        
+        driveTrain.stop();
     }
 }

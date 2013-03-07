@@ -15,7 +15,7 @@ import edu.wpi.first.wpilibj.templates.Team1512Joystick;
 public class RunShooter extends CommandBase {
     //the speed we want the shooter to run at (must be between -1.0 and 1.0)
     private double requestedSpeed;
-    
+
     public RunShooter() {
         //reserve the shooter
         requires(shooter);
@@ -43,9 +43,12 @@ public class RunShooter extends CommandBase {
                 SmartDashboard.putString("Shooter: ", "OFF");
                 //System.out.println("Shooter Off");
                 //so shooter always starts from zero when turned on.
+                shooter.stopCounter();
                 requestedSpeed = 0.0;
             }
             else {
+                shooter.resetCounter();
+                shooter.startCounter();
                 shooter.turnOn(); 
                 //write the state of the shooter to the Smart Dashboard
                 //System.out.println("Shooter On");
@@ -71,14 +74,6 @@ public class RunShooter extends CommandBase {
         
         //set the shooter to the requested speed
         if (shooter.isOn()) shooter.setSpeed(requestedSpeed); //fastest shooter speed is -1.0
-        
-        //Feed a frisbee into the shooter using B button  
-        //feedFrisbee() returns a boolean indicating success (frisbee was fed)
-        //if feedFrisbee() returns false, this means the feeder did not complete its full range of
-        //motion and needs to be reset
-        if (OI.xbox2.isButtonPressed(Team1512Joystick.XBOX_BUTTON_B) && shooter.isOn()) {
-            new RunFeeder().start();
-        }
 
         //write the data to SmartDashboard
         SmartDashboard.putNumber("Requested Speed: ", requestedSpeed);
@@ -95,10 +90,12 @@ public class RunShooter extends CommandBase {
 
     // Called once after isFinished returns true
     protected void end() {
+        shooter.turnOff();
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
+        shooter.turnOff();
     }
 }

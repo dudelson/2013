@@ -8,6 +8,10 @@ package edu.wpi.first.wpilibj.templates.commands;
  *
  * @author robot
  */
+/*
+ * THIS CLASS NO LONGER USED BECAUSE CALLING COMMANDS FROM COMMANDS CAUSED
+ * PROBLEMS. IF THE FEEDER DOESN'T START IN THE RIGHT PLACE IT WON'T MOVE.
+ */
 public class ResetFeeder extends CommandBase {
     private boolean isFinished;
     
@@ -39,10 +43,12 @@ public class ResetFeeder extends CommandBase {
 
     // Called once after isFinished returns true
     protected void end() {
+        feeder.turnOff();
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
+        feeder.turnOff();
     }
 }

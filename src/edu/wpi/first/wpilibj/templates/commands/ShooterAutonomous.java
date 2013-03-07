@@ -4,9 +4,7 @@
  */
 package edu.wpi.first.wpilibj.templates.commands;
 
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
@@ -22,49 +20,104 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * 
  * 12v => 83% power 
  */
+ /* This is the default autonomous command, to be used when the robot
+  * is starting partially outside of the autozone and is allowed 3 disks.
+  */
 public class ShooterAutonomous extends CommandBase {
-    /* This is the default autonomous command, to be used when the robot
-     * is starting partially outside of the autozone and is allowed 3 disks.
-     */
+    //all possible positions for the autonomous program
+    public static final int POSITION_LEFT_BACK   = 0;
+    public static final int POSITION_RIGHT_BACK  = 1;
+    public static final int POSITION_LEFT_FRONT  = 2;
+    public static final int POSITION_RIGHT_FRONT = 3;
+    public static final int POSITION_CENTER_BACK = 4;
+   /* The power constant scales with the battery voltage to provide more accurate
+    * shots at lower voltages. It it obtained by selecting the relationship between
+    * output power and full voltage:
+    *      PK / v = P_out
+    * With a full battery (v = 12.0) and a selected benchmark power output (say .75):
+    *      PK / 12.0 = .75
+    *      PK = .75 * 12.0 = 9.0
+    * So in this case the power constant becomes 9.0. Full power will be reached 
+    * at 9 volts.
+    */
     private static final double POWER_CONSTANT = 10.0; 
-    /* The power constant scales with the battery voltage to provide more accurate
-     * shots at lower voltages. It it obtained by selecting the relationship between
-     * output power and full voltage:
-     *      PK / v = P_out
-     * With a full battery (v = 12.0) and a selected benchmark power output (say .75):
-     *      PK / 12.0 = .75
-     *      PK = .75 * 12.0 = 9.0
-     * So in this case the power constant becomes 9.0. Full power will be reached 
-     * at 9 volts.
-     */
-    private int numShots; //the number of shots the autonomous program takes
-    private boolean isFromLeft; //true if the robot starts to the left of the ladder, false otherwise (from right)
+
+    //the position for this autonomous command
+    private int position;
+    //passed to isFinished() as true once we're done
+    private boolean isFinished;
     
-    private boolean isFinished; //passed to isFinished() as true once we're done
+    private int feederCount;
     
     public ShooterAutonomous() {
-        this(3, true);
+        this(POSITION_CENTER_BACK);
     }
     
-    public ShooterAutonomous(int numShots, boolean isFromLeft) {
+    public ShooterAutonomous(int position) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
         requires(driveTrain);
         requires(shooter);
+        requires(feeder);
         
-        this.numShots = numShots;
-        this.isFromLeft = isFromLeft;
+        this.position = position;
+        feederCount = 0;
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
         isFinished = false;
+        
+        switch(this.position) {
+            case POSITION_LEFT_BACK:
+                /* Using 0.8 as a shooter speed worked pretty well.
+                 * We even scored a few autonomously :)
+                 */
+                shooter.setSpeed(0.8);
+                /*
+                driveTrain.driveStraight(0.5);
+                Timer.delay(0.5);
+                driveTrain.turnRight(0.5);
+                Timer.delay(1.0);
+                driveTrain.stop();
+                */
+            case POSITION_RIGHT_BACK:
+                shooter.setSpeed(0.8);
+                /*
+                driveTrain.driveStraight(0.5);
+                Timer.delay(0.5);
+                driveTrain.turnLeft(0.5);
+                Timer.delay(1.0);
+                driveTrain.stop();
+                */
+            case POSITION_LEFT_FRONT:
+                shooter.setSpeed(0.8);
+            case POSITION_RIGHT_FRONT:
+                shooter.setSpeed(0.8);
+            case POSITION_CENTER_BACK:
+                shooter.setSpeed(0.8);
+        }    
+        Timer.delay(6.0); 
     }
 
     // Called repeatedly when this Command is scheduled to run
-    protected void execute() {
-        shooter.setSpeed(.4);
-        isFinished = true;
+    protected void execute() {  
+        if (feeder.getLimStop()) {
+            feeder.turnOff();
+            Timer.delay(1.0);
+            if (feederCount <= 2) {
+                feeder.setForward();
+                feederCount++;
+                Timer.delay(0.1);
+            } else isFinished = true;
+        //bump
+        } else if (feeder.getLimBump()) {
+            feeder.turnOff();
+            Timer.delay(0.1);
+            feeder.setBackward();
+        } 
+    }
+        
         //activate the shooter first so that it's up to speed
         //by the time we need to shoot
         /*
@@ -151,7 +204,7 @@ public class ShooterAutonomous extends CommandBase {
         Timer.delay(0.2);
         isFinished = true;
         */
-    }
+
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
@@ -160,12 +213,23 @@ public class ShooterAutonomous extends CommandBase {
 
     // Called once after isFinished returns true
     protected void end() {
-        System.out.println("[Auto] Finished!");
+//        System.out.println("[Auto] Finished!");
+        while (!feeder.getLimStop()) {
+            feeder.setBackward();
+        }
+        feeder.turnOff();
+        shooter.turnOff();
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
-        System.out.println("auto canceled!");
+//        System.out.println("auto canceled!");
+        while (!feeder.getLimStop()) {
+            feeder.setBackward();
+        }
+        feeder.turnOff();
+        shooter.turnOff();
+//        shooter.turnOff();
     }
 }

@@ -28,6 +28,7 @@ public class RobotTemplate extends IterativeRobot {
     private Drive drive = new Drive();
     private RunShooter shooter = new RunShooter();
     private RunClimber climber = new RunClimber();
+    private RunFeeder feeder = new RunFeeder();
     
     /**
      * This function is run when the robot is first started up and should be
@@ -38,10 +39,11 @@ public class RobotTemplate extends IterativeRobot {
         CommandBase.init();
         //init the smartdashboard autonomous program chooser
         autonomousChooser = new SendableChooser();
-        autonomousChooser.addDefault("Shoot with 3 from left", new ShooterAutonomous(3, true));
-        autonomousChooser.addObject("Shoot with 3 from right", new ShooterAutonomous(3, false));
-        autonomousChooser.addObject("Shoot with 2 from left", new ShooterAutonomous(2, true));
-        autonomousChooser.addObject("Shoot with 2 from right", new ShooterAutonomous(2, false));
+        autonomousChooser.addDefault("Center back", new ShooterAutonomous(ShooterAutonomous.POSITION_CENTER_BACK));
+        autonomousChooser.addObject("Left back", new ShooterAutonomous(ShooterAutonomous.POSITION_LEFT_BACK));
+        autonomousChooser.addObject("Left front", new ShooterAutonomous(ShooterAutonomous.POSITION_LEFT_FRONT));
+        autonomousChooser.addObject("Right back", new ShooterAutonomous(ShooterAutonomous.POSITION_RIGHT_BACK));
+        autonomousChooser.addObject("Right front", new ShooterAutonomous(ShooterAutonomous.POSITION_RIGHT_FRONT));
         SmartDashboard.putData("Autonomous Program", autonomousChooser);
     }
 
@@ -49,9 +51,6 @@ public class RobotTemplate extends IterativeRobot {
         // schedule the autonomous command (example)
         autonomousProgram = (Command) autonomousChooser.getSelected();
         autonomousProgram.start();
-        new RunFeeder().start();
-        new RunFeeder().start();
-        new RunFeeder().start();
     }
 
     /**
@@ -76,6 +75,7 @@ public class RobotTemplate extends IterativeRobot {
         drive.start();
         shooter.start();
         climber.start();
+        feeder.start();
     }
 
     /**
@@ -89,6 +89,7 @@ public class RobotTemplate extends IterativeRobot {
         drive.cancel();
         shooter.cancel();
         climber.cancel();
+        feeder.cancel();
     }
     
     /**
