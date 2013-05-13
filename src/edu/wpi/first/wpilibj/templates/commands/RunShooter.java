@@ -35,45 +35,18 @@ public class RunShooter extends CommandBase {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-        //X toggles the shooter on/off
-        if (OI.xbox2.isButtonPressed(Team1512Joystick.XBOX_BUTTON_X)) {
-            if (shooter.isOn()) {
-                shooter.turnOff();
-                //write the state of the shooter to the Smart Dashboard
-                SmartDashboard.putString("Shooter: ", "OFF");
-                //System.out.println("Shooter Off");
-                //so shooter always starts from zero when turned on.
-                shooter.stopCounter();
-                requestedSpeed = 0.0;
-            }
-            else {
-                shooter.resetCounter();
-                shooter.startCounter();
-                shooter.turnOn(); 
-                //write the state of the shooter to the Smart Dashboard
-                //System.out.println("Shooter On");
-                SmartDashboard.putString("Shooter: ", "ON");
-            }
+        if (!SmartDashboard.getBoolean("SHOOTER ON/OFF: ") && shooter.isOn()) {
+            shooter.turnOff();
+            SmartDashboard.putString("Shooter: ", "OFF");
+        } else if (SmartDashboard.getBoolean("SHOOTER ON/OFF: ") && !shooter.isOn()) {
+            shooter.turnOn();
+            SmartDashboard.putString("shooter: ", "ON");
         }
         
-        //Y/A on xbox 2 increment/decrement the speed, respectively
-        if (OI.xbox2.isButtonPressed(Team1512Joystick.XBOX_BUTTON_A) && requestedSpeed >= 0.0 && shooter.isOn()) 
-        {
-            requestedSpeed -= 0.1;
-            //System.out.println("Down requestedSpeed=" + Double.toString(requestedSpeed));
+        double speed = SmartDashboard.getNumber("SET SHOOTER SPEED TO: ");
+        if (speed >= 0.0 && speed <= 1.0) {
+            shooter.setSpeed(speed);
         }
-        else if (OI.xbox2.isButtonPressed(Team1512Joystick.XBOX_BUTTON_Y) && requestedSpeed <= 1.0 && shooter.isOn()) 
-        {
-            requestedSpeed += 0.1;
-            //System.out.println("Up requestedSpeed=" + Double.toString(requestedSpeed));
-        }
-        //We never want shooter to go backwards
-        if (requestedSpeed < 0.0) requestedSpeed = 0.0;
-        //or go faster than the maximum
-        if (requestedSpeed > 1.0) requestedSpeed = 1.0;
-        
-        //set the shooter to the requested speed
-        if (shooter.isOn()) shooter.setSpeed(requestedSpeed); //fastest shooter speed is -1.0
 
         //write the data to SmartDashboard
         SmartDashboard.putNumber("Requested Speed: ", requestedSpeed);
